@@ -27,6 +27,23 @@ begin
 dout1 <= registers(to_integer(unsigned(id1)));
 dout2 <= registers(to_integer(unsigned(id2)));
 
+process(clk)
+begin
+if(rising_edge(clk)) then
+    registers(0) <= x"0000";
+    if rst = '1' then
+        registers <= (others => x"0000");
+    elsif en = '1' then
+        if wr_en1 = '1' then
+            registers(to_integer(unsigned(id1))) <= din1;
+        end if;
+        
+        if wr_en2 = '1' then
+            registers(to_integer(unsigned(id2))) <= din2;
+        end if;
+    end if;
+end if;
+end process;        
 
 
 

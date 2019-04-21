@@ -75,5 +75,7 @@ if (rising_edge(clk)) then
             pc_signal <= regrD1;
             curr <= decode;
        when decode =>
+            --what does it mean irMem[pc_signal]??????
+            
             
 end fsm;

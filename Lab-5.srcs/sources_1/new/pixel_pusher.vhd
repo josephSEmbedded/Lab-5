@@ -5,7 +5,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity pixel_pusher is
     port(
           signal clk, en, vs, vid : in std_logic;
-          signal pixel : in std_logic_vector(16 downto 0);
+          signal pixel : in std_logic_vector(15 downto 0);
           signal hcount : in std_logic_vector(63 downto 0);
           signal R :  out std_logic_vector(4 downto 0);
           signal B : out std_logic_vector(4 downto 0);
@@ -26,9 +26,9 @@ begin
 if (rising_edge(clk)) then
     
     if en = '1' and vid = '1'and unsigned(hcount) < 480 then
-        R <= pixel(7 downto 5) & "00";
-        G <= pixel(4 downto 2) & "000";
-        B <= pixel(1 downto 0) & "000";
+        R <= pixel(15 downto 11);
+        G <= pixel(10 downto 6);
+        B <= pixel(5 downto 0);
         addrIn <= std_logic_vector(unsigned(addrIn)+1);
     else
         R <= (others => '0');

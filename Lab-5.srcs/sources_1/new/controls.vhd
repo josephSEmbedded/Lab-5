@@ -52,8 +52,8 @@ end controls;
 
 architecture fsm of controls is
 
-type state is (fetch, settingReg, decode, waitDecode, rops, ropsWait, iops, jops, calc, store, jr, recv, rpix, wpix, 
-               send, equals, nequals, ori, lw, sw, jmp, ja, clrscr, finish);
+type state is (fetch, settingReg, decode, waitDecode, rops, ropsWait, iops, iopsWait, jops, calc, store, jr, recv, rpix,rpixwait, wpix, 
+               wpixWait, send, equals, nequals, ori, lw, sw, jmp, jal, clrscr, finish);
                
 signal curr : state := fetch;
 
@@ -63,6 +63,8 @@ signal instruction : std_logic_vector(31 downto 0);
 signal opcode : std_logic_vector(4 downto 0);
 signal reg2 : std_logic_vector(15 downto 0);
 signal reg3 : std_logic_vector(15 downto 0);
+signal immediate : std_logic_vector(15 downto 0);
+signal resultALU : std_logic_vector(15 downto 0) := aluResult;
 
 begin
 
@@ -74,16 +76,19 @@ if (rising_edge(clk)) then
 			--Set the address to 1 for register 1
 			rID1 <= "00001";
 			curr <= settingReg;
+			
 		when settingReg =>
 			--Put "regrD1" into "pc_signal" only after making sure we are getting the register 1 which we did in the "fetch" state
 			pc_signal <= regrD1;
 			curr <= decode;
+			
 		when decode =>
 			--what does it mean irMem[pc_signal]??????
 			--Ignoring the first 2 top bits because the instruction memory block only has 14 bits of physical memory
 			irAddr <= pc_signal(13 downto 0);
 			wr_enR1 <= '1';
 			curr <= waitDecode;
+			
 		when waitDecode =>
 			if irWord(31 downto 30) = "00" or irWord(31 downto 30) = "01" then
 				curr <= rops;
@@ -96,6 +101,7 @@ if (rising_edge(clk)) then
 			regwD1 <= std_logic_vector(unsigned(pc_signal)+1);
 			wr_enR1 <= '0';
 			instruction <= irWord;
+			
 		when rops =>
 			opcode <= instruction(31 downto 27);
 			--Address of reg2
@@ -103,27 +109,113 @@ if (rising_edge(clk)) then
 			--Address of reg3
 			rID2 <= instruction(16 downto 12);
 			curr <= ropsWait;
+			
 		when ropsWait =>
 			reg2 <= regrD1;
 			reg3 <= regrD2;
+			
 			if opcode = "01101" then
 				curr <= jr;
+				rID1 <= instruction(26 downto 22);
+				
 			elsif opcode = "01100" then
 				curr <= recv;
+				
 			elsif opcode = "01111" then	
 				curr <= rpix;
+				
 			elsif opcode = "01110" then
 				curr <= wpix;
+				rID1 <= instruction(26 downto 22);
+
+				
 			elsif opcode = "01011" then
 				curr <= send;
+			    rID1 <= instruction(26 downto 22);
+
 			else
 				curr <= calc;
 			end if;
-		
 			
-			
-			
-			
-            
-            
+		when iops => 
+		  opcode <= instruction(31 downto 27);
+		  --Address of reg2
+		  rID1 <= instruction (21 downto 17);
+		  --Immediate
+		  immediate <= instruction(16 downto 1);
+		  curr <= iopsWait;
+		  
+	   when iopsWait =>
+	       reg2 <= regrD1;
+	       if opcode(2 downto 0) = "000" then
+	           curr <= equals;
+	       elsif opcode(2 downto 0) = "001" then
+	           curr <= nequals;
+	       elsif opcode(2 downto 0) = "010" then
+	           curr <= ori;
+	       elsif opcode(2 downto 0) = "011" then
+	           curr <= lw;
+	       else 
+	           curr <= sw;
+	       end if;
+	       
+	   when jops =>
+	       immediate <= instruction(26 downto 11);
+	       if opcode = "11000" then
+	           curr <= jmp;
+	       elsif opcode = "11001" then
+	           curr <= jal;
+	       else
+	           curr <= clrscr;
+	       end if;
+	   when jr =>
+	        resultALU <= regrD1;
+	        --Setting address back to register 1
+	        rID1 <= "00001";
+	        --Setting the write enable to 1 for store state to write
+	        wr_enR1 <= '1';
+	        curr <= store;
+	        
+	   when recv =>
+	       resultALU <= charRec;
+	       rID1 <= instruction(26 downto 22);
+	       wr_enR1 <= '1';
+	       if newChar = '0' then
+	           curr <= recv;
+	       else
+	           curr <= store;
+	       end if;
+	  
+	   when rpix =>
+	       fbAddr1 <= reg2(11 downto 0);
+	       curr <= rpixWait;
+	       
+	   when rpixWait =>
+	       resultALU <= fbDin1;
+	       rID1 <= instruction(26 downto 22);
+	       wr_enR1 <= '1';
+	       curr <= store;
+	       
+	  when wpix => 
+	       fbAddr1 <= regrD1(11 downto 0);
+	       curr <= wpixWait;
+	  
+	  when wpixWait =>
+	       fbDout1 <= reg2(15 downto 0);
+	       curr <= finish;
+	       
+	  when send =>
+	       sendUART <= '1';
+	       charSend <= regrD1;
+	       
+	       if ready = '1' then
+	           curr <= finish;
+	       else
+	           curr <= store;
+	       end if;
+	           
+	   
+	end case;
+end if;
+end process;		
 end fsm;

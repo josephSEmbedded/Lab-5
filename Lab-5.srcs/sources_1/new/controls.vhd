@@ -52,8 +52,8 @@ end controls;
 
 architecture fsm of controls is
 
-type state is (fetch, settingReg, decode, waitDecode, rops, ropsWait, iops, iopsWait, jops, calc, store, jr, recv, rpix,rpixwait, wpix, 
-               wpixWait, send, equals, nequals, ori, lw, sw, jmp, jal, clrscr, finish);
+type state is (fetch, settingReg, decode, waitDecode, rops, ropsWait, iops, iopsWait, jops, calc,calcWait, store, storeWait, jr, recv, rpix,rpixwait, wpix, 
+               wpixWait, send, equals, nequal, ori, lw,lwWait, sw,swWait, jmp, jal, clrscr, finish);
                
 signal curr : state := fetch;
 
@@ -61,10 +61,13 @@ signal curr : state := fetch;
 signal pc_signal : std_logic_vector(15 downto 0);
 signal instruction : std_logic_vector(31 downto 0);
 signal opcode : std_logic_vector(4 downto 0);
+signal reg1Addr : std_logic_vector(5 downto 0);
+signal reg1 : std_logic_vector(15 downto 0);
 signal reg2 : std_logic_vector(15 downto 0);
 signal reg3 : std_logic_vector(15 downto 0);
 signal immediate : std_logic_vector(15 downto 0);
 signal resultALU : std_logic_vector(15 downto 0) := aluResult;
+signal sum_for_lw : std_logic_vector(15 downto 0);
 
 begin
 
@@ -108,6 +111,8 @@ if (rising_edge(clk)) then
 			rID1 <= instruction(21 downto 17);
 			--Address of reg3
 			rID2 <= instruction(16 downto 12);
+			--Address of reg1
+			reg1Addr <= instruction(26 downto 22);
 			curr <= ropsWait;
 			
 		when ropsWait =>
@@ -149,35 +154,58 @@ if (rising_edge(clk)) then
 	       reg2 <= regrD1;
 	       if opcode(2 downto 0) = "000" then
 	           curr <= equals;
+	           --Set address to reg1
+	           rID1 <= instruction(26 downto 22);
 	       elsif opcode(2 downto 0) = "001" then
-	           curr <= nequals;
+	           curr <= nequal;
+	           --Set address to reg1
+	           rID1 <= reg1Addr;
 	       elsif opcode(2 downto 0) = "010" then
 	           curr <= ori;
 	       elsif opcode(2 downto 0) = "011" then
+	           sum_for_lw <= std_logic_vector(unsigned(reg2)+unsigned(immediate));
 	           curr <= lw;
+	           
 	       else 
+	           sum_for_lw <= std_logic_vector(unsigned(reg2)+unsigned(immediate));
+	           rID1 <= reg1Addr;
 	           curr <= sw;
 	       end if;
+	       
+	   when store =>
+	       rID2 <= reg1Addr;
+	       wr_enR2 <= '1';
+	       curr <= storeWait;
+	       
+	   when storeWait =>
+	       regwD2 <= resultALU;
+	       curr <= finish;
+	  
 	       
 	   when jops =>
 	       immediate <= instruction(26 downto 11);
 	       if opcode = "11000" then
+	           rID1 <= "00001";
+	           wr_enR1 <= '1';
 	           curr <= jmp;
 	       elsif opcode = "11001" then
+	           rID1 <= "00001";
+	           wr_enR1 <= '1';
+	           rID2 <= "00010";
+	           wr_enR2 <= '1';
 	           curr <= jal;
 	       else
 	           curr <= clrscr;
 	       end if;
 	   when jr =>
-	        resultALU <= regrD1;
+	        resultALU <= reg1Addr;
 	        --Setting address back to register 1
-	        rID1 <= "00001";
+	        reg1Addr <= "00001";
 	        --Setting the write enable to 1 for store state to write
-	        wr_enR1 <= '1';
 	        curr <= store;
 	        
 	   when recv =>
-	       resultALU <= charRec;
+	       resultALU <= x"00" & charRec;
 	       rID1 <= instruction(26 downto 22);
 	       wr_enR1 <= '1';
 	       if newChar = '0' then
@@ -213,8 +241,74 @@ if (rising_edge(clk)) then
 	       else
 	           curr <= store;
 	       end if;
-	           
+	  
+	  when calc =>
+	       aluA <= reg2;
+	       aluB <= reg3;
+	       aluOp <= opcode;
+	       --Set address to reg1 from instruction to store value in it 
+	       rID1 <= instruction(26 downto 22);
+	       curr <= calcWait;
+	  
+	  when calcWait =>
+	       resultALU <= aluresult;
+	       curr <= store;
+	  
+	  when equals =>
+	       if (regrD1 = reg2) then
+	           resultALU <= immediate;
+	           reg1Addr <= "00001";
+	           curr <= store;
+	       end if;
+	  
+	  when nequal =>
+	       if (regrD1 /= reg2) then
+	           resultALU <= immediate;
+	           reg1Addr <= "00001";
+	           curr <= store;
+	       end if;  
+	  
+	  when ori =>
+	       resultALU <= immediate or reg2;
+	       curr <= store;
+	  
+	  when lw =>
+	       dAddr <= sum_for_lw(14 downto 0);
+	       curr <= lwWait;
+	       
+	  when lwWait =>
+	       resultALU <= dIn;
+	       curr <= store;
 	   
+	  when sw =>
+	       d_wr_en <= '1';
+	       dAddr <= sum_for_lw(14 downto 0);
+	       curr <= swWait;
+	  
+	  when swWait =>
+	       dOut <= regrD1;
+	       curr <= finish;
+	       
+	 when jmp =>
+	       regwD1 <= immediate;
+	       wr_enR1 <= '0';
+	       curr <= finish;
+	 when jal =>
+	       regwD2 <= pc_signal;
+	       regwD1 <= immediate;
+	       wr_enR1 <= '0';
+	       wr_enR2 <= '0';
+	       curr <= finish;
+	 
+	 when clrscr =>
+	       fbRST <= '1';
+	       curr <= finish;
+	 
+	 when finish =>
+	       wr_enR1 <= '0';
+	       wr_enR2 <= '0';
+	       d_wr_en <= '0';
+	       curr <= fetch;     
 	end case;
 end if;
 end process;		

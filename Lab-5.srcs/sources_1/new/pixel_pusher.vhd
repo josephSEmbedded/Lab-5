@@ -6,17 +6,17 @@ entity pixel_pusher is
     port(
           signal clk, en, vs, vid : in std_logic;
           signal pixel : in std_logic_vector(15 downto 0);
-          signal hcount : in std_logic_vector(63 downto 0);
+          signal hcount : in std_logic_vector(9 downto 0);
           signal R :  out std_logic_vector(4 downto 0);
           signal B : out std_logic_vector(4 downto 0);
           signal G : out std_logic_vector(5 downto 0);
-          signal addr : out std_logic_vector(17 downto 0)
+          signal addr : out std_logic_vector(11 downto 0)
          );
 end pixel_pusher;
 
 architecture Behavioral of pixel_pusher is
 
-signal addrIn : std_logic_vector(17 downto 0) := (others => '0');
+signal addrIn : std_logic_vector(11 downto 0) := (others => '0');
 
 
 begin

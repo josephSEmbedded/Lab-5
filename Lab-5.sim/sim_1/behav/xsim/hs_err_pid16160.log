@@ -1,0 +1,14 @@
+#
+# An unexpected error has occurred (11)
+#
+Stack:
+/usr/local/xilinx/Vivado/2018.2/tps/lnx64/jre/lib/amd64/server/libjvm.so(+0x923da9) [0x7f43b8832da9]
+/usr/local/xilinx/Vivado/2018.2/tps/lnx64/jre/lib/amd64/server/libjvm.so(JVM_handle_linux_signal+0xb6) [0x7f43b88393f6]
+/usr/local/xilinx/Vivado/2018.2/tps/lnx64/jre/lib/amd64/server/libjvm.so(+0x9209d3) [0x7f43b882f9d3]
+/lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7f43f6e8c4b0]
+/usr/local/xilinx/Vivado/2018.2/lib/lnx64.o/librdi_simdata.so(void std::__introsort_loop<__gnu_cxx::__normal_iterator<SimBridge::IDataObj const**, std::vector<SimBridge::IDataObj const*, std::allocator<SimBridge::IDataObj const*> > >, long, __gnu_cxx::__ops::_Iter_comp_iter<RSDData::SortTypeFunctor> >(__gnu_cxx::__normal_iterator<SimBridge::IDataObj const**, std::vector<SimBridge::IDataObj const*, std::allocator<SimBridge::IDataObj const*> > >, __gnu_cxx::__normal_iterator<SimBridge::IDataObj const**, std::vector<SimBridge::IDataObj const*, std::allocator<SimBridge::IDataObj const*> > >, long, __gnu_cxx::__ops::_Iter_comp_iter<RSDData::SortTypeFunctor>)+0x162) [0x7f43c7e5d7f2]
+/usr/local/xilinx/Vivado/2018.2/lib/lnx64.o/librdi_simdata.so(RSDData::RSDTreeTopDataObject::sort(int, bool, RSDData::RSDIDataObjectValueCache&)+0x576) [0x7f43c7e5a526]
+/usr/local/xilinx/Vivado/2018.2/lib/lnx64.o/librdi_simdata.so(RSDData::RSDObjectTreeModel::sort(int, RSDData::RSDObjectTreeModel::SortOrder)+0xfc) [0x7f43c7e4784c]
+/usr/local/xilinx/Vivado/2018.2/lib/lnx64.o/librdi_simdata.so(RSDExecutive::sortObjectTree(RSDExecutive::ObjectColumn, RSDExecutive::SortOrder)+0x53) [0x7f43c7e28a73]
+/usr/local/xilinx/Vivado/2018.2/lib/lnx64.o/librdi_simdata.so(Java_ui_views_simulator_executive_simulationi_SimulationExecutive_1sortObjectTree+0x1c) [0x7f43c7e7203c]
+[0x7f43ab58d97d]

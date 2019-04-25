@@ -16,9 +16,11 @@ port (
     clk , en , rst : in std_logic;
     
     -- Register File IO
-    rID1 , rID2 : out std_logic_vector (4 downto 0);
+    rID1 : out std_logic_vector(4 downto 0) := "00001";
+    rID2 : out std_logic_vector (4 downto 0);
     wr_enR1 , wr_enR2 : out std_logic;
-    regrD1 , regrD2 : in std_logic_vector (15 downto 0);
+    regrD1 : in std_logic_vector(15 downto 0);
+    regrD2 : in std_logic_vector (15 downto 0);
     regwD1 , regwD2 : out std_logic_vector (15 downto 0);
     
     -- Framebuffer IO
@@ -61,7 +63,7 @@ signal curr : state := fetch;
 signal pc_signal : std_logic_vector(15 downto 0);
 signal instruction : std_logic_vector(31 downto 0);
 signal opcode : std_logic_vector(4 downto 0);
-signal reg1Addr : std_logic_vector(5 downto 0);
+signal reg1Addr : std_logic_vector(4 downto 0);
 signal reg1 : std_logic_vector(15 downto 0);
 signal reg2 : std_logic_vector(15 downto 0);
 signal reg3 : std_logic_vector(15 downto 0);
@@ -77,11 +79,6 @@ if (rising_edge(clk)) then
     case curr is
 		when fetch => 
 			--Set the address to 1 for register 1
-			rID1 <= "00001";
-			curr <= settingReg;
-			
-		when settingReg =>
-			--Put "regrD1" into "pc_signal" only after making sure we are getting the register 1 which we did in the "fetch" state
 			pc_signal <= regrD1;
 			curr <= decode;
 			
@@ -120,8 +117,8 @@ if (rising_edge(clk)) then
 			reg3 <= regrD2;
 			
 			if opcode = "01101" then
+			    rID1 <= reg1Addr;
 				curr <= jr;
-				rID1 <= instruction(26 downto 22);
 				
 			elsif opcode = "01100" then
 				curr <= recv;
@@ -131,12 +128,11 @@ if (rising_edge(clk)) then
 				
 			elsif opcode = "01110" then
 				curr <= wpix;
-				rID1 <= instruction(26 downto 22);
-
+				rID1 <= reg1Addr;
 				
 			elsif opcode = "01011" then
 				curr <= send;
-			    rID1 <= instruction(26 downto 22);
+			    rID1 <= reg1Addr;
 
 			else
 				curr <= calc;
@@ -144,10 +140,13 @@ if (rising_edge(clk)) then
 			
 		when iops => 
 		  opcode <= instruction(31 downto 27);
+		  --Address of reg1
+		  reg1Addr <= instruction(26 downto 22);
 		  --Address of reg2
-		  rID1 <= instruction (21 downto 17);
+		  rID1 <= instruction(21 downto 17);
 		  --Immediate
 		  immediate <= instruction(16 downto 1);
+		 
 		  curr <= iopsWait;
 		  
 	   when iopsWait =>
@@ -155,7 +154,7 @@ if (rising_edge(clk)) then
 	       if opcode(2 downto 0) = "000" then
 	           curr <= equals;
 	           --Set address to reg1
-	           rID1 <= instruction(26 downto 22);
+	           rID1 <= reg1Addr;
 	       elsif opcode(2 downto 0) = "001" then
 	           curr <= nequal;
 	           --Set address to reg1
@@ -183,7 +182,7 @@ if (rising_edge(clk)) then
 	  
 	       
 	   when jops =>
-	       immediate <= instruction(26 downto 11);
+	       immediate <= instruction(26 downto 11); 
 	       if opcode = "11000" then
 	           rID1 <= "00001";
 	           wr_enR1 <= '1';
@@ -198,7 +197,7 @@ if (rising_edge(clk)) then
 	           curr <= clrscr;
 	       end if;
 	   when jr =>
-	        resultALU <= reg1Addr;
+	        resultALU <= regrD1;
 	        --Setting address back to register 1
 	        reg1Addr <= "00001";
 	        --Setting the write enable to 1 for store state to write
@@ -206,8 +205,6 @@ if (rising_edge(clk)) then
 	        
 	   when recv =>
 	       resultALU <= x"00" & charRec;
-	       rID1 <= instruction(26 downto 22);
-	       wr_enR1 <= '1';
 	       if newChar = '0' then
 	           curr <= recv;
 	       else
@@ -220,8 +217,6 @@ if (rising_edge(clk)) then
 	       
 	   when rpixWait =>
 	       resultALU <= fbDin1;
-	       rID1 <= instruction(26 downto 22);
-	       wr_enR1 <= '1';
 	       curr <= store;
 	       
 	  when wpix => 
@@ -229,25 +224,23 @@ if (rising_edge(clk)) then
 	       curr <= wpixWait;
 	  
 	  when wpixWait =>
-	       fbDout1 <= reg2(15 downto 0);
+	       fbDout1 <= reg2;
 	       curr <= finish;
 	       
 	  when send =>
 	       sendUART <= '1';
-	       charSend <= regrD1;
+	       charSend <= regrD1(7 downto 0);
 	       
 	       if ready = '1' then
 	           curr <= finish;
 	       else
-	           curr <= store;
+	           curr <= send;
 	       end if;
 	  
 	  when calc =>
 	       aluA <= reg2;
 	       aluB <= reg3;
-	       aluOp <= opcode;
-	       --Set address to reg1 from instruction to store value in it 
-	       rID1 <= instruction(26 downto 22);
+	       aluOp <= opcode(3 downto 0);
 	       curr <= calcWait;
 	  
 	  when calcWait =>
@@ -308,7 +301,10 @@ if (rising_edge(clk)) then
 	       wr_enR1 <= '0';
 	       wr_enR2 <= '0';
 	       d_wr_en <= '0';
-	       curr <= fetch;     
+	       rID1 <= "00001";
+	       curr <= fetch; 
+	 when others =>
+	       curr <= finish;   
 	end case;
 end if;
 end process;		

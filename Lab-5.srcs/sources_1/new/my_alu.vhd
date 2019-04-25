@@ -30,57 +30,59 @@ begin
                 if en = '1' then
                     case opcode is
                     --OpCode = 0
-                        when "0000" => output <= std_logic_vector(unsigned(A)+unsigned(B));
+                        when x"0" => output <= std_logic_vector(unsigned(A)+unsigned(B));
                     --OpCode = 1    
-                        when "0001" => output <= std_logic_vector(unsigned(A)-unsigned(B));
+                        when x"1" => output <= std_logic_vector(unsigned(A)-unsigned(B));
                     --OpCode = 2
-                        when "0010" => output <= std_logic_vector(unsigned(A)+1);
+                        when x"2" => output <= std_logic_vector(unsigned(A)+1);
                     --OpCode = 3
-                        when "0011" => output <= std_logic_vector(unsigned(A)-1);
+                        when x"3" => output <= std_logic_vector(unsigned(A)-1);
                     --OpCode = 4
-                        when "0100" => output <= std_logic_vector(0-unsigned(A));
+                        when x"4" => output <= std_logic_vector(0-unsigned(A));
                     --OpCode = 5
-                        when "0101" => output <= std_logic_vector(shift_left(unsigned(A),1));
+                        when x"5" => output <= std_logic_vector(shift_left(unsigned(A),1));
                     --OpCode = 6
-                        when "0110" => output <= std_logic_vector(shift_right(unsigned(A),1));
+                        when x"6" => output <= std_logic_vector(shift_right(unsigned(A),1));
                     --OpCode = 7
-                        when "0111" => output <= std_logic_vector(shift_right(signed(A),1));
+                        when x"7" => output <= std_logic_vector(shift_right(signed(A),1));
                     --OpCode = 8
-                        when "1000" => output <= A and B;
+                        when x"8" => output <= A and B;
                     --OpCode  = 9
-                        when "1001" => output <= A or B;
+                        when x"9" => output <= A or B;
                     --OpCode = A
-                        when "1010" => output <= A xor B;
+                        when x"A" => output <= A xor B;
                     --OpCode = B
-                        when "1011" => if( signed(A) < signed(B)) then 
+                        when x"B" => if( signed(A) < signed(B)) then 
                                             output(0) <= '1'; 
                                        else 
                                             output(0) <= '0'; 
                                        end if;
                     --OpCode = C
-                        when "1100" => if( signed(A) > signed(B)) then 
+                        when x"C" => if( signed(A) > signed(B)) then 
                                             output(0) <= '1'; 
                                        else 
                                             output(0) <= '0'; 
                                        end if;
                     --OpCode = D
-                        when "1101" => if (A = B) then
+                        when x"D" => if (A = B) then
                                             output(0) <= '1';
                                        else
                                             output(0) <= '0';
                                        end if;
                     --OpCode = E
-                        when "1110" => if (A < B) then
+                        when x"E" => if (A < B) then
                                             output(0) <= '1';
                                         else 
                                             output(0) <= '0';
                                         end if;
                     --OpCode = F
-                        when "1111" => if (A > B) then
+                        when x"F" => if (A > B) then
                                             output(0) <= '1';
                                        else
                                             output(0) <= '0';
                                        end if;
+                        when others =>
+                                    output <= (others => '0');
                     end case;
                 end if;
             end if;

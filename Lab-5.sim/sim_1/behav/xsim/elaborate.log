@@ -1,0 +1,8 @@
+Vivado Simulator 2018.2
+Copyright 1986-1999, 2001-2018 Xilinx, Inc. All Rights Reserved.
+Running: /usr/local/xilinx/Vivado/2018.2/bin/unwrapped/lnx64.o/xelab -wto 809163f9be774dc485133745faaf03fd --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot addition_tb_behav xil_defaultlib.addition_tb -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+WARNING: [VRFC 10-1625] value in initialization depends on signal aluresult [/home/user/Lab-5/Lab-5.srcs/sources_1/new/controls.vhd:71]
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel

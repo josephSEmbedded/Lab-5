@@ -28,6 +28,7 @@ port (
     fbAddr1 : out std_logic_vector (11 downto 0);
     fbDin1 : in std_logic_vector (15 downto 0);
     fbDout1 : out std_logic_vector (15 downto 0);
+    wr_en : out std_logic;
     
     -- Instruction Memory IO
     irAddr : out std_logic_vector (13 downto 0);
@@ -221,6 +222,7 @@ if (rising_edge(clk)) then
 	       
 	  when wpix => 
 	       fbAddr1 <= regrD1(11 downto 0);
+	       wr_en <= '1';
 	       curr <= wpixWait;
 	  
 	  when wpixWait =>
@@ -298,6 +300,7 @@ if (rising_edge(clk)) then
 	       curr <= finish;
 	 
 	 when finish =>
+	       wr_en <= '0';
 	       wr_enR1 <= '0';
 	       wr_enR2 <= '0';
 	       d_wr_en <= '0';

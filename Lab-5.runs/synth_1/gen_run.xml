@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7z010clg400-1" LaunchTime="1555636771">
-  <File Type="PA-TCL" Name="framebuffer.tcl"/>
-  <File Type="RDS-DCP" Name="framebuffer.dcp"/>
-  <File Type="REPORTS-TCL" Name="framebuffer_reports.tcl"/>
-  <File Type="RDS-RDS" Name="framebuffer.vds"/>
-  <File Type="RDS-UTIL-PB" Name="framebuffer_utilization_synth.pb"/>
-  <File Type="RDS-UTIL" Name="framebuffer_utilization_synth.rpt"/>
+<GenRun Id="synth_1" LaunchPart="xc7z010clg400-1" LaunchTime="1556242720">
+  <File Type="VDS-TIMING-PB" Name="lab_5_top_wrapper_timing_summary_synth.pb"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="lab_5_top_wrapper_timing_summary_synth.rpt"/>
+  <File Type="RDS-DCP" Name="lab_5_top_wrapper.dcp"/>
+  <File Type="RDS-UTIL-PB" Name="lab_5_top_wrapper_utilization_synth.pb"/>
+  <File Type="RDS-UTIL" Name="lab_5_top_wrapper_utilization_synth.rpt"/>
+  <File Type="RDS-PROPCONSTRS" Name="lab_5_top_wrapper_drc_synth.rpt"/>
+  <File Type="RDS-RDS" Name="lab_5_top_wrapper.vds"/>
+  <File Type="REPORTS-TCL" Name="lab_5_top_wrapper_reports.tcl"/>
+  <File Type="PA-TCL" Name="lab_5_top_wrapper.tcl"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
+    <File Path="$PSRCDIR/sources_1/new/clk_div_25MHz.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/clk_div_115200.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/controls.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/debounce.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
     <File Path="$PSRCDIR/sources_1/new/framebuffer.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/my_alu.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/pixel_pusher.vhd">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
@@ -16,32 +55,72 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/regs.vhd">
       <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/my_alu.vhd">
+    <File Path="$PSRCDIR/sources_1/new/uart_rx.vhd">
       <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/pixel_pusher.vhd">
+    <File Path="$PSRCDIR/sources_1/new/uart_tx.vhd">
       <FileInfo>
-        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/uart.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/vga_ctrl.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/bd/lab_5_top/lab_5_top.bd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/bd/lab_5_top/hdl/lab_5_top_wrapper.vhd">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/t.coe">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/d.coe">
+      <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
     <Config>
       <Option Name="DesignMode" Val="RTL"/>
-      <Option Name="TopModule" Val="framebuffer"/>
+      <Option Name="TopModule" Val="lab_5_top_wrapper"/>
     </Config>
   </FileSet>
   <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
     <Filter Type="Constrs"/>
+    <File Path="$PSRCDIR/constrs_1/new/zybo_constriant.xdc">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+      </FileInfo>
+    </File>
     <Config>
       <Option Name="ConstrsType" Val="XDC"/>
     </Config>
@@ -50,4 +129,16 @@
     <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2018"/>
     <Step Id="synth_design"/>
   </Strategy>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_blk_mem_gen_0_1"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_vga_ctrl_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_uart_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_pixel_pusher_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_clock_div_25MHz_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_blk_mem_gen_0_2"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_my_alu_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_framebuffer_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_clock_div_115200_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_regs_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_controls_0_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="lab_5_top_debounce_0_0"/>
 </GenRun>

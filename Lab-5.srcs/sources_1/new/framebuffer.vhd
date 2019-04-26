@@ -11,7 +11,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity framebuffer is
-  Port (clk1, en1, en2, ld      : in std_logic;
+  Port (clk1, en1, en2          : in std_logic;
         addr1, addr2            : in std_logic_vector(11 downto 0);
         wr_en1                  : in std_logic;
         din1                    : in std_logic_vector(15 downto 0);
@@ -31,9 +31,7 @@ process(clk1)
 begin
     if (rising_edge(clk1)) then
         if en1 = '1' then
-            if ld = '1' then
-                dout1 <= framemem(to_integer(unsigned(addr1)));
-            end if;
+            dout1 <= framemem(to_integer(unsigned(addr1)));
             
             if wr_en1 = '1' then
                 framemem(to_integer(unsigned(addr1))) <= din1;
@@ -47,9 +45,7 @@ process(clk1)
 begin
     if (rising_edge(clk1)) then
         if en2 = '1' then
-            if ld = '1' then
-                dout2 <= framemem(to_integer(unsigned(addr2)));
-            end if;
+            dout2 <= framemem(to_integer(unsigned(addr2)));
         end if;
     end if;
 end process;

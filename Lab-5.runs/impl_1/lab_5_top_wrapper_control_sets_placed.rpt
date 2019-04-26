@@ -1,0 +1,131 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.2 (lin64) Build 2258646 Thu Jun 14 20:02:38 MDT 2018
+| Date         : Thu Apr 25 21:47:36 2019
+| Host         : ece26 running 64-bit Ubuntu 16.04.5 LTS
+| Command      : report_control_sets -verbose -file lab_5_top_wrapper_control_sets_placed.rpt
+| Design       : lab_5_top_wrapper
+| Device       : xc7z010
+----------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Number of unique control sets                            |    65 |
+| Unused register locations in slices containing registers |    60 |
++----------------------------------------------------------+-------+
+
+
+2. Histogram
+------------
+
++--------+--------------+
+| Fanout | Control Sets |
++--------+--------------+
+|      8 |            1 |
+|     10 |            4 |
+|    16+ |           60 |
++--------+--------------+
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |              62 |           18 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |             204 |           45 |
+| Yes          | No                    | No                     |             636 |          109 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |            1102 |          338 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++----------------+----------------------------------------------------------+-----------------------------------------------------+------------------+----------------+
+|  Clock Signal  |                       Enable Signal                      |                   Set/Reset Signal                  | Slice Load Count | Bel Load Count |
++----------------+----------------------------------------------------------+-----------------------------------------------------+------------------+----------------+
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/reg1Addr[4]_i_2_n_0            | lab_5_top_i/controls_0/U0/reg1Addr[4]_i_1_n_0       |                2 |              8 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/opcode[4]_i_1_n_0              |                                                     |                1 |             10 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/rID1_reg[4]_i_1_n_0            |                                                     |                1 |             10 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/rID2[4]_i_1_n_0                |                                                     |                2 |             10 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/FSM_sequential_curr[4]_i_1_n_0 |                                                     |                2 |             10 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/charSend[7]_i_1_n_0            |                                                     |                2 |             16 |
+|  clk_IBUF_BUFG | lab_5_top_i/uart_0/U0/t_x/d[7]_i_1__0_n_0                | lab_5_top_i/debounce_0/U0/dbnc                      |                2 |             16 |
+|  clk_IBUF_BUFG | lab_5_top_i/uart_0/U0/r_x/char[7]_i_1_n_0                |                                                     |                1 |             16 |
+|  clk_IBUF_BUFG |                                                          | lab_5_top_i/clock_div_115200_0/U0/clock_out_i_1_n_0 |                3 |             20 |
+|  clk_IBUF_BUFG | lab_5_top_i/clock_div_25MHz_0/U0/clock_out               | lab_5_top_i/vga_ctrl_0/U0/hcounter                  |                4 |             20 |
+|  clk_IBUF_BUFG | lab_5_top_i/vga_ctrl_0/U0/hcounter                       | lab_5_top_i/vga_ctrl_0/U0/vcounter                  |                4 |             20 |
+|  clk_IBUF_BUFG | lab_5_top_i/uart_0/U0/r_x/count[2]_i_1_n_0               | lab_5_top_i/debounce_0/U0/dbnc                      |                3 |             22 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/fbAddr1[11]_i_1_n_0            |                                                     |                4 |             24 |
+|  clk_IBUF_BUFG | lab_5_top_i/pixel_pusher_0/U0/addrIn[11]_i_2_n_0         | lab_5_top_i/pixel_pusher_0/U0/clear                 |                3 |             24 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/irAddr[13]_i_1_n_0             |                                                     |                4 |             28 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/dAddr[14]_i_1_n_0              |                                                     |                2 |             30 |
+|  clk_IBUF_BUFG | lab_5_top_i/my_alu_0/U0/output[15]_i_1_n_0               |                                                     |               14 |             30 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/sum_for_lw_1                   |                                                     |                4 |             30 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[14]_13                   | lab_5_top_i/debounce_0/U0/dbnc                      |               11 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[13]_12                   | lab_5_top_i/debounce_0/U0/dbnc                      |               11 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[20]_19                   | lab_5_top_i/debounce_0/U0/dbnc                      |               13 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[27]_26                   | lab_5_top_i/debounce_0/U0/dbnc                      |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[7]_6                     | lab_5_top_i/debounce_0/U0/dbnc                      |               15 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[12]_11                   | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[16]_15                   | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[31]_30                   | lab_5_top_i/debounce_0/U0/dbnc                      |               12 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/resultALU_reg[15]_i_1_n_0      |                                                     |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/regwD2[15]_i_1_n_0             |                                                     |                5 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/regwD1[15]_i_1_n_0             |                                                     |                5 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/reg3_2                         |                                                     |               11 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/reg2[15]_i_1_n_0               |                                                     |                3 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/pc_signal                      |                                                     |                4 |             32 |
+|  clk_IBUF_BUFG |                                                          | lab_5_top_i/pixel_pusher_0/U0/R[4]_i_1_n_0          |                6 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/immediate[15]_i_1_n_0          |                                                     |                5 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/fbDout1[15]_i_1_n_0            |                                                     |                2 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/dOut[15]_i_1_n_0               |                                                     |                6 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[3]_2                     | lab_5_top_i/debounce_0/U0/dbnc                      |               11 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[22]_21                   | lab_5_top_i/debounce_0/U0/dbnc                      |               11 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[21]_20                   | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[2]_1                     | lab_5_top_i/debounce_0/U0/dbnc                      |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[23]_22                   | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[17]_16                   | lab_5_top_i/debounce_0/U0/dbnc                      |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[24]_23                   | lab_5_top_i/debounce_0/U0/dbnc                      |               11 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[25]_24                   | lab_5_top_i/debounce_0/U0/dbnc                      |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[28]_27                   | lab_5_top_i/debounce_0/U0/dbnc                      |                8 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[6]_5                     | lab_5_top_i/debounce_0/U0/dbnc                      |               12 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[11]_10                   | lab_5_top_i/debounce_0/U0/dbnc                      |                8 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[5]_4                     | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[15]_14                   | lab_5_top_i/debounce_0/U0/dbnc                      |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[18]_17                   | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[30]_29                   | lab_5_top_i/debounce_0/U0/dbnc                      |               12 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[19]_18                   | lab_5_top_i/debounce_0/U0/dbnc                      |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[9]_8                     | lab_5_top_i/debounce_0/U0/dbnc                      |               13 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[8]_7                     | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[1]_0                     | lab_5_top_i/debounce_0/U0/dbnc                      |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[26]_25                   | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[4]_3                     | lab_5_top_i/debounce_0/U0/dbnc                      |                9 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[10]_9                    | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG | lab_5_top_i/regs_0/U0/registers[29]_28                   | lab_5_top_i/debounce_0/U0/dbnc                      |               10 |             32 |
+|  clk_IBUF_BUFG |                                                          | lab_5_top_i/debounce_0/U0/counter[0]_i_1_n_0        |                6 |             44 |
+|  clk_IBUF_BUFG |                                                          | lab_5_top_i/clock_div_25MHz_0/U0/count[25]_i_1_n_0  |                8 |             52 |
+|  clk_IBUF_BUFG |                                                          | lab_5_top_i/debounce_0/U0/dbnc                      |               22 |             56 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/instruction                    |                                                     |               12 |             62 |
+|  clk_IBUF_BUFG |                                                          |                                                     |               18 |             62 |
+|  clk_IBUF_BUFG | lab_5_top_i/controls_0/U0/aluA[15]_i_1_n_0               |                                                     |               10 |             72 |
++----------------+----------------------------------------------------------+-----------------------------------------------------+------------------+----------------+
+
+

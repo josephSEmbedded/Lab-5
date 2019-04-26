@@ -36,4 +36,4 @@ EAStep()
      fi
 }
 
-EAStep vivado -log framebuffer.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source framebuffer.tcl
+EAStep vivado -log lab_5_top_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source lab_5_top_wrapper.tcl

@@ -27,8 +27,8 @@ if (rising_edge(clk)) then
     
     if en = '1' and vid = '1'and unsigned(hcount) < 480 then
         R <= pixel(15 downto 11);
-        G <= pixel(10 downto 6);
-        B <= pixel(5 downto 0);
+        G <= pixel(10 downto 5);
+        B <= pixel(4 downto 0);
         addrIn <= std_logic_vector(unsigned(addrIn)+1);
     else
         R <= (others => '0');

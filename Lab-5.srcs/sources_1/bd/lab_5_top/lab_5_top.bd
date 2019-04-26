@@ -54,6 +54,42 @@
             <spirit:direction>in</spirit:direction>
           </spirit:wire>
         </spirit:port>
+        <spirit:port>
+          <spirit:name>vga_r</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>4</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>vga_b</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>4</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>vga_g</spirit:name>
+          <spirit:wire>
+            <spirit:direction>out</spirit:direction>
+            <spirit:vector>
+              <spirit:left>5</spirit:left>
+              <spirit:right>0</spirit:right>
+            </spirit:vector>
+          </spirit:wire>
+        </spirit:port>
+        <spirit:port>
+          <spirit:name>btn</spirit:name>
+          <spirit:wire>
+            <spirit:direction>in</spirit:direction>
+          </spirit:wire>
+        </spirit:port>
       </spirit:ports>
     </spirit:model>
   </spirit:component>
@@ -164,6 +200,42 @@
         </spirit:configurableElementValues>
       </spirit:componentInstance>
       <spirit:componentInstance>
+        <spirit:instanceName>irMem</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="blk_mem_gen" spirit:vendor="xilinx.com" spirit:version="8.4"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">lab_5_top_blk_mem_gen_0_1</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Memory_Type">Single_Port_ROM</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Enable_32bit_Address">false</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Write_Width_A">32</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Write_Depth_A">16384</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Enable_A">Always_Enabled</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Register_PortA_Output_of_Memory_Primitives">true</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Load_Init_File">true</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Coe_File">../../../../../../t.coe</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Use_RSTA_Pin">false</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Port_A_Write_Rate">0</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="use_bram_block">Stand_Alone</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
+        <spirit:instanceName>dMem</spirit:instanceName>
+        <spirit:componentRef spirit:library="ip" spirit:name="blk_mem_gen" spirit:vendor="xilinx.com" spirit:version="8.4"/>
+        <spirit:configurableElementValues>
+          <spirit:configurableElementValue spirit:referenceId="bd:xciName">lab_5_top_blk_mem_gen_0_2</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Enable_32bit_Address">false</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Use_Byte_Write_Enable">false</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Write_Width_A">16</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Write_Depth_A">32768</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Read_Width_A">16</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Enable_A">Always_Enabled</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Register_PortA_Output_of_Memory_Primitives">false</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Load_Init_File">true</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Coe_File">../../../../../../d.coe</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="Use_RSTA_Pin">false</spirit:configurableElementValue>
+          <spirit:configurableElementValue spirit:referenceId="use_bram_block">Stand_Alone</spirit:configurableElementValue>
+        </spirit:configurableElementValues>
+      </spirit:componentInstance>
+      <spirit:componentInstance>
         <spirit:instanceName>pixel_pusher_0</spirit:instanceName>
         <spirit:componentRef spirit:library="module_ref" spirit:name="pixel_pusher" spirit:vendor="xilinx.com" spirit:version="1.0"/>
         <spirit:configurableElementValues>
@@ -204,6 +276,8 @@
         <spirit:internalPortReference spirit:componentRef="my_alu_0" spirit:portRef="clock"/>
         <spirit:internalPortReference spirit:componentRef="regs_0" spirit:portRef="clk"/>
         <spirit:internalPortReference spirit:componentRef="debounce_0" spirit:portRef="clk"/>
+        <spirit:internalPortReference spirit:componentRef="irMem" spirit:portRef="clka"/>
+        <spirit:internalPortReference spirit:componentRef="dMem" spirit:portRef="clka"/>
         <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="clk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
@@ -300,6 +374,96 @@
         <spirit:name>regs_0_dout2</spirit:name>
         <spirit:internalPortReference spirit:componentRef="regs_0" spirit:portRef="dout2"/>
         <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="regrD2"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>vga_ctrl_0_hcount</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="vga_ctrl_0" spirit:portRef="hcount"/>
+        <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="hcount"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>controls_0_fbAddr1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="fbAddr1"/>
+        <spirit:internalPortReference spirit:componentRef="framebuffer_0" spirit:portRef="addr1"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>controls_0_fbDout1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="fbDout1"/>
+        <spirit:internalPortReference spirit:componentRef="framebuffer_0" spirit:portRef="din1"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>framebuffer_0_dout1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="framebuffer_0" spirit:portRef="dout1"/>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="fbDin1"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>vga_ctrl_0_vid</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="vga_ctrl_0" spirit:portRef="vid"/>
+        <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="vid"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>vga_ctrl_0_vs</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="vga_ctrl_0" spirit:portRef="vs"/>
+        <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="vs"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>framebuffer_0_dout2</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="framebuffer_0" spirit:portRef="dout2"/>
+        <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="pixel"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>pixel_pusher_0_addr</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="addr"/>
+        <spirit:internalPortReference spirit:componentRef="framebuffer_0" spirit:portRef="addr2"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>pixel_pusher_0_R</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="R"/>
+        <spirit:externalPortReference spirit:portRef="vga_r"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>pixel_pusher_0_B</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="B"/>
+        <spirit:externalPortReference spirit:portRef="vga_b"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>pixel_pusher_0_G</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="pixel_pusher_0" spirit:portRef="G"/>
+        <spirit:externalPortReference spirit:portRef="vga_g"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>btn_0_1</spirit:name>
+        <spirit:externalPortReference spirit:portRef="btn"/>
+        <spirit:internalPortReference spirit:componentRef="debounce_0" spirit:portRef="btn"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>controls_0_irAddr</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="irAddr"/>
+        <spirit:internalPortReference spirit:componentRef="irMem" spirit:portRef="addra"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>irMem_douta</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="irMem" spirit:portRef="douta"/>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="irWord"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>controls_0_dAddr</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="dAddr"/>
+        <spirit:internalPortReference spirit:componentRef="dMem" spirit:portRef="addra"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>controls_0_dOut</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="dOut"/>
+        <spirit:internalPortReference spirit:componentRef="dMem" spirit:portRef="dina"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>dMem_douta</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="dMem" spirit:portRef="douta"/>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="dIn"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>controls_0_d_wr_en</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="controls_0" spirit:portRef="d_wr_en"/>
+        <spirit:internalPortReference spirit:componentRef="dMem" spirit:portRef="wea"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
   </spirit:design>
